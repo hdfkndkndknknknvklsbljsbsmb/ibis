@@ -78,12 +78,12 @@ jobs:
       run:
         shell: bash -l {0}
     strategy:
+      fail-fast: false
       matrix:
         pyver: ["3.7", "3.9"]
-	additional-deps:
+        additional-deps:
           - [dask-min]
           - []
-      fail-fast: false
     runs-on: ubuntu-latest
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
@@ -104,12 +104,12 @@ jobs:
       - name: Checkout submodules
         run: |
           git submodule init
-          git submodule update	  
+          git submodule update
       - name: set backends
         id: set_backends
-	run: echo '::set-output name=backends::["csv", "dask", "hdf5", "pandas", "parquet", "sqlite"]'	
+        run: echo '::set-output name=backends::["csv", "dask", "hdf5", "pandas", "parquet", "sqlite"]'	
       - name: merge environments
-      	run: ./ci/merge_and_update_env.sh ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }} ${{ join(matrix.additional-deps, ' ') }}		
+        run: ./ci/merge_and_update_env.sh ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }} ${{ join(matrix.additional-deps, ' ') }}		
       - name: setup qemu
         id: qemu
         uses: docker/setup-qemu-action@v1
@@ -129,17 +129,17 @@ jobs:
             uname -m && \
             python -m pip install --upgrade pip setuptools wheel && \
             python -m pip install . && \
-	    python ci/datamgr.py download && \
-	    set -euo pipefail
-	    for backend in ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}; do
-	      python ci/datamgr.py "$backend"
+            python ci/datamgr.py download && \
+            set -euo pipefail
+            for backend in ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}; do
+              python ci/datamgr.py "$backend"
             done
             python -m pip install pytest && \
             python -m pip install pytest-cov && \
             python -m pip install sqlalchemy && \
             python -m pip install pytest-mock && \
             ./ci/run_tests.sh && \
-	env:
+        env:
           PYTEST_BACKENDS: ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}	
             deactivate'
  
