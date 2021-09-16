@@ -130,6 +130,7 @@ jobs:
             python -m pip install . && \
             python -m pip install click && \
             python ci/datamgr.py download && \
+            python -m pip install sqlalchemy && \
             set -euo pipefail
             for backend in ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}; do
               python ci/datamgr.py "$backend"
