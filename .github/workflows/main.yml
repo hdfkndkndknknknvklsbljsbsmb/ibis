@@ -128,6 +128,7 @@ jobs:
             uname -m && \
             python -m pip install --upgrade pip setuptools wheel && \
             python -m pip install . && \
+            python -m pip install click && \
             python ci/datamgr.py download && \
             set -euo pipefail
             for backend in ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}; do
