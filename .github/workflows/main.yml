@@ -104,16 +104,13 @@ jobs:
       - name: Checkout submodules
         run: |
           git submodule init
-          git submodule update
-	  
+          git submodule update	  
       - name: set backends
         id: set_backends
-	run: echo '::set-output name=backends::["csv", "dask", "hdf5", "pandas", "parquet", "sqlite"]'
-	
+	run: echo '::set-output name=backends::["csv", "dask", "hdf5", "pandas", "parquet", "sqlite"]'	
       - name: merge environments
-	run: ./ci/merge_and_update_env.sh ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }} ${{ join(matrix.additional-deps, ' ') }}
-		
-      - name: merge environments
+      	run: ./ci/merge_and_update_env.sh ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }} ${{ join(matrix.additional-deps, ' ') }}		
+      - name: setup qemu
         id: qemu
         uses: docker/setup-qemu-action@v1
     
