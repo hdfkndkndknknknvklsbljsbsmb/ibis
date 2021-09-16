@@ -86,7 +86,7 @@ jobs:
           - []
     runs-on: ubuntu-latest
     env:
-          PYTEST_BACKENDS: ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}
+      PYTEST_BACKENDS: ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2    
