@@ -86,8 +86,7 @@ jobs:
           - []
     runs-on: ubuntu-latest
     env:
-      py: /opt/python/${{ matrix.pyver }}/bin/python
-      img: quay.io/pypa/manylinux2014_aarch64
+     PYTEST_BACKENDS: ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }} 
     steps:
       - name: Checkout
         uses: actions/checkout@v2    
@@ -139,7 +138,5 @@ jobs:
             python -m pip install sqlalchemy && \
             python -m pip install pytest-mock && \
             ./ci/run_tests.sh && \
-        env:
-          PYTEST_BACKENDS: ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}	
             deactivate'
  
