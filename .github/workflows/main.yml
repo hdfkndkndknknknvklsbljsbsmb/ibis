@@ -132,6 +132,7 @@ jobs:
             python -m pip install sqlalchemy && \
             python -m pip install plumbum && \
             python ci/datamgr.py download && \
+            apt-get install curl && \
             set -euo pipefail
             for backend in ${{ join(fromJSON(steps.set_backends.outputs.backends), ' ') }}; do
               python ci/datamgr.py "$backend"
