@@ -80,7 +80,7 @@ jobs:
     strategy:
       matrix:
         pyver: ["3.7", "3.9"]
-		    additional-deps:
+	additional-deps:
           - [dask-min]
           - []
       fail-fast: false
