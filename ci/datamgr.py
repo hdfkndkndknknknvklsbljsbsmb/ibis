@@ -144,7 +144,7 @@ def cli(quiet):
 def download(repo_url, directory):
     from shutil import rmtree
 
-    from plumbum import curl
+    #from plumbum.cmd import curl
 
     directory = Path(directory)
     # download the master branch
